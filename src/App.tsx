@@ -27,15 +27,15 @@ function play(playerMove:string){
     switch(move){
       case 'rock':
         setRes('tie')
-        setGames(prev => ({ ...prev, tie: prev.tie++ }))
+        setGames(prev => ({ ...prev, tie: prev.tie+1 }))
         break;
       case 'paper':
         setRes('lose')
-        setGames(prev => ({ ...prev, lose: prev.lose++ }))
+        setGames(prev => ({ ...prev, lose: prev.lose+1 }))
         break;
       case 'scissors':
         setRes('win')
-        setGames(prev => ({ ...prev, win: prev.win++ }))
+        setGames(prev => ({ ...prev, win: prev.win+1 }))
         break;
       default:
         console.log('invalid move')
@@ -45,15 +45,15 @@ function play(playerMove:string){
     switch(move){
       case 'rock':
         setRes('win')
-        setGames(prev => ({ ...prev, win: prev.win++ }))
+        setGames(prev => ({ ...prev, win: prev.win+1 }))
         break;
       case 'paper':
         setRes('tie')
-        setGames(prev => ({ ...prev, tie: prev.tie++ }))
+        setGames(prev => ({ ...prev, tie: prev.tie+1 }))
         break;
       case 'scissors':
         setRes('lose')
-        setGames(prev => ({ ...prev, lose: prev.lose++ }))
+        setGames(prev => ({ ...prev, lose: prev.lose+1 }))
         break;
       default:
         console.log('invalid move')
@@ -63,15 +63,15 @@ function play(playerMove:string){
     switch(move){
       case 'rock':
         setRes('lose')
-        setGames(prev => ({ ...prev, lose: prev.lose++ }))
+        setGames(prev => ({ ...prev, lose: prev.lose+1 }))
         break;
       case 'paper':
         setRes('win')
-        setGames(prev => ({ ...prev, win: prev.win++ }))
+        setGames(prev => ({ ...prev, win: prev.win+1 }))
         break;
       case 'scissors':
         setRes('tie')
-        setGames(prev => ({ ...prev, tie: prev.tie++ }))
+        setGames(prev => ({ ...prev, tie: prev.tie+1 }))
         break;
       default:
         console.log('invalid move')

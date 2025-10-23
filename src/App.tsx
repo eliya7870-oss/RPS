@@ -85,7 +85,7 @@ function play(playerMove:string){
     <button onClick={()=>{play('scissors')}}>scissors</button>
     {res&&<h1>computer chose {pcMove}, you {res}!</h1>}
     <h1>lose: {games.lose},win: {games.win},tie: {games.tie}</h1>
-      
+      <h1>win percent: {games.win?(100*games.win/(games.lose+games.win)).toPrecision(4):'0'}%</h1>
     </>
   )
 }

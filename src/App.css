@@ -4,5 +4,20 @@
   padding: 2rem;
   text-align: center;
 }
+.rps-button{
+  height:200px;
+  width:200px;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin:10px;
+}
+.rps-img{
+  width:120px;
+  height:auto;
+}
+.rps-img-small{
+  width:80px;
+  height:auto;
+}
 
 

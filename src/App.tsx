@@ -1,10 +1,18 @@
 import { useState } from 'react'
 import './App.css'
+import rock from './assets/rock.png'
+import paper from './assets/paper.png'
+import scissors from './assets/scissors.png'
+
 
 function App() {
-  const [pcMove,setPcMove]=useState<null |string>(null)
-  const [res,setRes]=useState<null|string>(null)
+  type Move = 'rock' | 'paper' | 'scissors';
+  type Result = 'win' | 'lose' | 'tie';
+  const [playerMove,setPlayerMove]=useState<null |Move>(null)
+  const [pcMove,setPcMove]=useState<null |Move>(null)
+  const [res,setRes]=useState<null|Result>(null)
   const [games,setGames] = useState({win:0,lose:0,tie:0})
+  const imageDict = {'rock':rock,'paper':paper,'scissors':scissors}
 
   function pcMakeMove(){
     let rand = Math.random()
@@ -18,11 +26,12 @@ function App() {
     else{
       move ='scissors'
     }
-    setPcMove(move)
+    setPcMove(move as Move)
     return(move)
   }
 function play(playerMove:string){
   let move = pcMakeMove()
+  setPlayerMove(playerMove as Move)
   if (playerMove ==='rock'){
     switch(move){
       case 'rock':
@@ -78,12 +87,15 @@ function play(playerMove:string){
     }
   }
 }
+
   return (
     <>
-    <button onClick={()=>{play('rock')}}>rock</button>
-    <button onClick={()=>{play('paper')}}>paper</button>
-    <button onClick={()=>{play('scissors')}}>scissors</button>
-    {res&&<h1>computer chose {pcMove}, you {res}!</h1>}
+    
+    <button onClick={()=>{play('rock')}} className='rps-button'><img className='rps-img' src={rock}/></button>
+    <button onClick={()=>{play('paper')}} className='rps-button'><img className='rps-img' src={paper}/></button>
+    <button onClick={()=>{play('scissors')}} className='rps-button'><img className='rps-img' src={scissors}/></button>
+    {res&&<h1>you {res}!</h1>}
+    {playerMove&&pcMove&&<h1>you: <img className='rps-img-small' src ={imageDict[playerMove]}/> pc: <img className='rps-img-small' src={imageDict[pcMove]}/></h1>}
     <h1>lose: {games.lose},win: {games.win},tie: {games.tie}</h1>
       <h1>win percent: {games.win?(100*games.win/(games.lose+games.win)).toPrecision(4):'0'}%</h1>
     </>

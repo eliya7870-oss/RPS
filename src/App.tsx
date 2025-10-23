@@ -27,70 +27,32 @@ function App() {
       move ='scissors'
     }
     setPcMove(move as Move)
-    return(move)
+    return(move as Move)
   }
-function play(playerMove:string){
-  let move = pcMakeMove()
-  setPlayerMove(playerMove as Move)
-  if (playerMove ==='rock'){
-    switch(move){
-      case 'rock':
-        setRes('tie')
-        setGames(prev => ({ ...prev, tie: prev.tie+1 }))
-        break;
-      case 'paper':
-        setRes('lose')
+
+  function play(playerMove:Move){
+    let move = pcMakeMove()
+    setPlayerMove(playerMove)
+
+    if (playerMove === move) {
+      setRes('tie')
+      setGames(prev => ({ ...prev, tie: prev.tie+1 }))}
+    else if (
+          (playerMove === 'rock' && move === 'scissors') ||
+          (playerMove === 'paper' && move === 'rock') ||
+          (playerMove === 'scissors' && move === 'paper')
+        ){
+          setRes('win')
+          setGames(prev => ({ ...prev, win: prev.win+1 }))
+        }
+    else{setRes('lose')
         setGames(prev => ({ ...prev, lose: prev.lose+1 }))
-        break;
-      case 'scissors':
-        setRes('win')
-        setGames(prev => ({ ...prev, win: prev.win+1 }))
-        break;
-      default:
-        console.log('invalid move')
-    }
+      }
+    
   }
-  else if(playerMove==='paper'){
-    switch(move){
-      case 'rock':
-        setRes('win')
-        setGames(prev => ({ ...prev, win: prev.win+1 }))
-        break;
-      case 'paper':
-        setRes('tie')
-        setGames(prev => ({ ...prev, tie: prev.tie+1 }))
-        break;
-      case 'scissors':
-        setRes('lose')
-        setGames(prev => ({ ...prev, lose: prev.lose+1 }))
-        break;
-      default:
-        console.log('invalid move')
-    }
-  }
-  else if(playerMove==='scissors'){
-    switch(move){
-      case 'rock':
-        setRes('lose')
-        setGames(prev => ({ ...prev, lose: prev.lose+1 }))
-        break;
-      case 'paper':
-        setRes('win')
-        setGames(prev => ({ ...prev, win: prev.win+1 }))
-        break;
-      case 'scissors':
-        setRes('tie')
-        setGames(prev => ({ ...prev, tie: prev.tie+1 }))
-        break;
-      default:
-        console.log('invalid move')
-    }
-  }
-}
 
   return (
     <>
-    
     <button onClick={()=>{play('rock')}} className='rps-button'><img className='rps-img' src={rock}/></button>
     <button onClick={()=>{play('paper')}} className='rps-button'><img className='rps-img' src={paper}/></button>
     <button onClick={()=>{play('scissors')}} className='rps-button'><img className='rps-img' src={scissors}/></button>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import rock from "./assets/rock.png";
 import paper from "./assets/paper.png";
@@ -10,10 +10,34 @@ function App() {
   const [playerMove, setPlayerMove] = useState<null | Move>(null);
   const [pcMove, setPcMove] = useState<null | Move>(null);
   const [res, setRes] = useState<null | Result>(null);
-  const [games, setGames] = useState({ win: 0, lose: 0, tie: 0 });
+  const [games, setGames] = useState({
+    win: 0,
+    lose: 0,
+    tie: 0,
+    winstreak: 0,
+    highscore: 0,
+  });
   const imageDict = { rock: rock, paper: paper, scissors: scissors };
+  const [auto, setAuto] = useState<boolean>(false);
 
-  function pcMakeMove() {
+  const intervalRef = useRef<number | null>(null);
+
+  function toggleInterval() {
+    if (auto) {
+      // stop
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      setAuto(false);
+    } else {
+      // start
+      intervalRef.current = window.setInterval(() => {
+        play(makeMove());
+      }, 500);
+      setAuto(true);
+    }
+  }
+
+  function makeMove() {
     let rand = Math.random();
     let move = "";
     if (rand >= 0 && rand < 1 / 3) {
@@ -23,12 +47,12 @@ function App() {
     } else {
       move = "scissors";
     }
-    setPcMove(move as Move);
     return move as Move;
   }
 
   function play(playerMove: Move) {
-    let move = pcMakeMove();
+    let move = makeMove();
+    setPcMove(move);
     setPlayerMove(playerMove);
 
     if (playerMove === move) {
@@ -40,10 +64,18 @@ function App() {
       (playerMove === "scissors" && move === "paper")
     ) {
       setRes("win");
-      setGames((prev) => ({ ...prev, win: prev.win + 1 }));
+      setGames((prev) => ({
+        ...prev,
+        win: prev.win + 1,
+        winstreak: prev.winstreak + 1,
+        highscore:
+          prev.winstreak + 1 >= prev.highscore
+            ? prev.winstreak + 1
+            : prev.highscore,
+      }));
     } else {
       setRes("lose");
-      setGames((prev) => ({ ...prev, lose: prev.lose + 1 }));
+      setGames((prev) => ({ ...prev, lose: prev.lose + 1, winstreak: 0 }));
     }
   }
 
@@ -90,6 +122,10 @@ function App() {
           : "0"}
         %
       </h1>
+      <h1>{`winstreak: ${games.winstreak} highscore: ${games.highscore}`}</h1>
+      <button onClick={toggleInterval}>
+        {auto ? "stop auto play" : "start auto play"}
+      </button>
     </>
   );
 }
